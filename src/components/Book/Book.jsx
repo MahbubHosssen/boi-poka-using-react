@@ -18,7 +18,7 @@ function Book({ book }) {
                 <div className="card-body font-medium">
                     <div className='flex justify-between'>
                         {
-                            tags.map(tag => <p className='text-green-400'>{tag}</p>)
+                            tags.map((tag, idx) => <p key={idx} className='text-green-400'>{tag}</p>)
                         }
                     </div>
                     <h2 className="card-title mt-4">

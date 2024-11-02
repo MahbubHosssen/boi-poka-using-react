@@ -2,14 +2,38 @@ import React from 'react';
 import { useLoaderData, useParams } from 'react-router-dom';
 
 function BookDetail() {
-    // const data = useLoaderData()
-    // console.log(data)
     const fetchData = useLoaderData()
-    
-
     const {bookId} = useParams()
+    
     const book = fetchData.find(data => data.bookId === parseInt(bookId))
     const {image,bookName, author, category, review, publisher, tags, yearOfPublishing, totalPages, rating} = book;
+
+    const getStoredList = () => {
+        const storedList = localStorage.getItem("read-list");
+        if(storedList){
+            const storedListStr = JSON.parse(storedList)
+            return storedListStr;
+        }else{
+            return [];
+        }
+    }
+
+    const setValue = (id) => {
+        const storedList = getStoredList()
+        if(storedList.includes(id)){
+            console.log(id, "already exist")
+        }else{
+            storedList.push(id)
+            const storedListStr = JSON.stringify(storedList)
+            localStorage.setItem("read-list", storedListStr)
+
+        }
+    }
+
+
+    const handleMarkAsRead = (e) => {
+        setValue(bookId)
+    } 
 
     return (
         <div className='grid grid-cols-1 md:grid-cols-2 gap-8'>
@@ -28,7 +52,7 @@ function BookDetail() {
                     <div className='flex gap-8 font-medium pb-4'>
                         <h4>Tag</h4>
                         {
-                            tags.map(tag => <h4 className='text-green-500'>#{tag}</h4> )
+                            tags.map((tag, idx) => <h4 key={idx} className='text-green-500'>#{tag}</h4> )
                         }
                     </div>
                 </div>
@@ -52,8 +76,8 @@ function BookDetail() {
                     
                 </div>
                 <div>
-                    <button className='btn btn-outline mr-3 mt-2 btn-accent'>Read</button>
-                    <button className='btn btn-accent'>Wishlist</button>
+                    <button onClick={() => handleMarkAsRead()} className='btn btn-outline mr-3 mt-2 btn-accent'>Mark As Read</button>
+                    <button className='btn btn-accent'>Wish List</button>
                 </div>
             </div>
         </div>
