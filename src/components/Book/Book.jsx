@@ -4,7 +4,7 @@ import { Link, useParams } from 'react-router-dom';
 function Book({ book }) {
 
 
-    const { bookId, bookName, author, image, tags } = book;
+    const { bookId, bookName, author, image, tags, totalPages, rating} = book;
     return (
         <Link to={`/books/${bookId}`}>
             <div className="card bg-base-100 shadow-xl border">
@@ -25,7 +25,10 @@ function Book({ book }) {
                         {bookName}
                     </h2>
                     <p>By: {author}</p>
+
                     <div className="card-actions justify-between">
+                        <p>Pages: {totalPages}</p>
+                        <p>Rating: {rating}</p>
                         <div className="badge badge-outline">Fiction</div>
                         <div className="badge">
                             <div className="rating">

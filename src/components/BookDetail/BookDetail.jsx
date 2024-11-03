@@ -1,5 +1,6 @@
 import React from 'react';
 import { useLoaderData, useParams } from 'react-router-dom';
+import { setValue } from '../utility/utility';
 
 function BookDetail() {
     const fetchData = useLoaderData()
@@ -8,31 +9,8 @@ function BookDetail() {
     const book = fetchData.find(data => data.bookId === parseInt(bookId))
     const {image,bookName, author, category, review, publisher, tags, yearOfPublishing, totalPages, rating} = book;
 
-    const getStoredList = () => {
-        const storedList = localStorage.getItem("read-list");
-        if(storedList){
-            const storedListStr = JSON.parse(storedList)
-            return storedListStr;
-        }else{
-            return [];
-        }
-    }
-
-    const setValue = (id) => {
-        const storedList = getStoredList()
-        if(storedList.includes(id)){
-            console.log(id, "already exist")
-        }else{
-            storedList.push(id)
-            const storedListStr = JSON.stringify(storedList)
-            localStorage.setItem("read-list", storedListStr)
-
-        }
-    }
-
-
-    const handleMarkAsRead = (e) => {
-        setValue(bookId)
+    const handleMarkAsRead = (id) => {
+        setValue(id)
     } 
 
     return (
@@ -76,7 +54,7 @@ function BookDetail() {
                     
                 </div>
                 <div>
-                    <button onClick={() => handleMarkAsRead()} className='btn btn-outline mr-3 mt-2 btn-accent'>Mark As Read</button>
+                    <button onClick={() => handleMarkAsRead(bookId)} className='btn btn-outline mr-3 mt-2 btn-accent'>Mark As Read</button>
                     <button className='btn btn-accent'>Wish List</button>
                 </div>
             </div>
